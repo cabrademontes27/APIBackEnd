@@ -15,7 +15,11 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated());
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt()); // 👈 ESTA LÍNEA es clave
+
 
         return http.build();
     }
