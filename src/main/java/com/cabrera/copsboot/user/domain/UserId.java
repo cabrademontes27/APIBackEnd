@@ -1,4 +1,4 @@
-package com.cabrera.copsboot.domain;
+package com.cabrera.copsboot.user.domain;
 
 import java.util.UUID;
 
