@@ -1,24 +1,22 @@
 package com.cabrera.copsboot.domain;
 
 import java.util.Set;
-import java.util.UUID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "copsboot_user")
 public class User {
 
-    @Id
-    private UUID id;
+    @EmbeddedId
+    private UserId id;
 
     private String email;
     private String password;
@@ -28,58 +26,30 @@ public class User {
     @NotNull
     private Set<UserRole> roles;
 
-    protected User() { 
+    protected User() {
+        // Constructor vacío para JPA
     }
 
-    
-    public User(UUID id, String email, String password, Set<UserRole> roles) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.roles = roles;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
+    public User(UserId id, String email, String password, Set<UserRole> roles) {
         this.id = id;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public UserId getId() {
+        return id;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Set<UserRole> getRoles() {
         return roles;
     }
-
-    public void setRoles(Set<UserRole> roles) {
-        this.roles = roles;
-    }
-
-
-
-    public enum UserRole {
-        OFFICER,
-        CAPTAIN,
-        ADMIN
-    }
 }
-
-
-
-
