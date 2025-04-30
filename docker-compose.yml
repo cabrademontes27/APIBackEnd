@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: copsboot-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: my-postgres-db-pwd
+      POSTGRES_DB: copsboot
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: copsboot-keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin-secret
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/copsboot
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: my-postgres-db-pwd
+    ports:
+      - "8180:8080"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
