@@ -1,13 +1,8 @@
-package com.cabrera.copsboot.domain;
+package com.cabrera.copsboot.user.domain;
 
-import java.util.Set;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.validation.constraints.NotNull;
+
 
 import jakarta.persistence.*;
 
@@ -19,22 +14,20 @@ public class User {
     private UserId id;
 
     private String email;
-    private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private Set<UserRole> roles;
+    @Embedded
+    private AuthServerId authServerId;
+
+    private String mobileToken;
 
     protected User() {
-        // Constructor vacío para JPA
     }
 
-    public User(UserId id, String email, String password, Set<UserRole> roles) {
+    public User(UserId id, String email, AuthServerId authServerId, String mobileToken) {
         this.id = id;
         this.email = email;
-        this.password = password;
-        this.roles = roles;
+        this.authServerId = authServerId;
+        this.mobileToken = mobileToken;
     }
 
     public UserId getId() {
@@ -45,11 +38,11 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public AuthServerId getAuthServerId() {
+        return authServerId;
     }
 
-    public Set<UserRole> getRoles() {
-        return roles;
+    public String getMobileToken() {
+        return mobileToken;
     }
 }
