@@ -29,5 +29,15 @@ services:
     depends_on:
       - postgres
 
+  copsboot-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+
 volumes:
   postgres_data:
